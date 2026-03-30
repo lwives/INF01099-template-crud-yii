@@ -90,23 +90,24 @@ Para usar o `Gii`, acesse a URL do projeto e adicione `?r=gii` ao final (p.ex., 
 **Vamos gerar o *model* da tabela principal**. Siga os seguintes passos:
 
 1. Clique em **Model Generator** > **Start**;
-2. Table Name: `PubManager` (o Yii deve autocompletar se a conexão com o banco estiver correta e ativa);
-3. Model Class: `PubManager` (o Yii sugere automaticamente);
+2. Table Name: `tbl_referencia` (o Yii deve autocompletar se a conexão com o banco estiver correta e ativa);
+3. Model Class: `Referencia` (o Yii sugere automaticamente);
 4. Clique em **Preview** e depois no botão verde **Generate**.
 
-O `Gii` irá criar o arquivo `models/PubManager.php` com todas as regras de validação baseadas no `squema.sql`.
+O `Gii` irá criar o arquivo `models/Referencia.php` com todas as regras de validação baseadas no `schema.sql`, incluindo a detecção automática das relações com as tabelas de Editora e de Veículo. 
+
+**Repita o processo de Model Generator para as tabelas tbl_author, tbl_editora e tbl_veiculo antes de gerar o CRUD, para que o sistema reconheça todos os relacionamentos!**
 
 **Vamos gerar a interface CRUD da tabela principal**. Siga os seguintes passos:
 
 1. Volte para o menu do `Gii` e clique em **CRUD Generator** > **Start**;
 2. Prencha como segue:
-   * **Model Class**: `app\models\PubManager`
-   * **Search Model Class**: `app\models\PubManagerSearch`
-   * **Controller Class**: `app\controllers\PubManagerController`
+   * **Model Class**: `app\models\Referencia`
+   * **Search Model Class**: `app\models\ReferenciaSearch`
+   * **Controller Class**: `app\controllers\ReferenciaController`
    * **View Path**: (deixe em branco).
-   * 
+     
 3. Clique em **Preview** e, em seguida, em **Generate**.
-
 
 ## Testando a aplicação
 
