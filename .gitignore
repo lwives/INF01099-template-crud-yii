@@ -4,3 +4,18 @@ protected/runtime/*
 !protected/runtime/.gitignore
 protected/data/*.db
 themes/classic/views/
+
+# Bibliotecas instaladas pelo Composer
+/vendor/
+
+# Arquivos de log e runtime
+/runtime/*
+!/runtime/.gitignore
+
+# Assets gerados pelo framework
+/web/assets/*
+!/web/assets/.gitignore
+
+# Outros
+.env
+.phpunit.result.cache
