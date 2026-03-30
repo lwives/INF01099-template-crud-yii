@@ -1,35 +1,48 @@
-# PubMan - Versão Yii Framework 🚀
+# PubMan - Versão Yii Framework
 
-Este laboratório foca no uso do framework Yii2 para gerenciar referências bibliográficas.
+Este laboratório foca no uso do [*framework* Yii 2](https://www.yiiframework.com/) para gerenciar referências bibliográficas. Yii é um *framework* de desenvolvimento de aplicações Web em PHP. Ele é utilizado por muitas empresas e preza pela estabilidade extrema (está na versão 2.0 desde então). Apesar de haver rumores de uma versão 3 em desenvolvimento, ele não é o *framework* mais popular (posição que é ocupada por [Laravel](https://laravel.com/)).  
+
+**Vantagens do Yii**:
+* Yii segue MVC e ActiveRecord, padrões de projeto que são importantes de aprender, sem esconder via abstrações excessivas;
+* Possui ferramenta de geração de código CRUD (`gii`) que acelera o desenvolvimento;
+* É um dos *frameworks* PHP mais rápidos que existem (em termos de resposta);
+* Possui proteção integrada e robusta contra SQL injection, XSS e CSRF;
+
+**Desvantagens**:
+* Curva de aprendizado inicial;
+* Comunicade um pouco menor, sendo menos *hype*;
+* Ecosistema menor em termos de bibliotecas prontas;
+* Demora um pouco para adotar as novas tecnologias do PHP.
 
 ## 🛠️ Como iniciar o ambiente no Codespaces
 
-1. **Inicializar o Banco de Dados:**
-   No terminal, execute o comando para carregar seu esquema:
+Inicie um novo ambiente no CodeSpaces e aguarde a inicialização. Depois, abra um terminal de comando e siga os seguintes passos.
+
+1. **Inicializar o Banco de Dados com o *script* `schema.sql`:**
+   No terminal, execute o comando para criar as tabelas no banco de dados:
    ```bash
    mysql -u root < schema.sql
    ```
 
-Teste de Sanidade do Banco de Dados
-Antes de prosseguir para a instalação do framework, verificar se o script SQL funcionou corretamente. No terminal:
-
+2. **Realizar teste de Sanidade do Banco de Dados**:
+Antes de prosseguir adiante, verifique se o *script* SQL funcionou corretamente, digitando no terminal:
+```bash
 mysql -u root -e "SHOW TABLES IN db_pubman;"
+```
+Se aparecer a lista de tabelas (`pub_manager`, `pub_manager-author`), o banco está pronto.
 
+Se der erro *Unknown database*, o *script* schema.sql falhou ou não foi executado.
 
-Se aparecer a lista de tabelas (pub_manager, pub_manager-author): O banco está pronto.
+3. **Instalar o Yii Framework**:
+A instalação do *framework* é feita via `composer`, um gerenciador de pacotes do `PHP`. Normalmente, usamos o seguinte comando no terminal: `composer create-project --prefer-dist yiisoft/yii2-app-basic .`. No entanto, ele espera que o repositório (pasta) esteja vazio, mas como temos alguns arquivos de configuração do contêiner no repositório *github*, precisamos instalar em uma pasta diferente e depois copiá-la para a raiz. 
 
-Se der erro "Unknown database": O script schema.sql falhou ou não foi executado.
-
-2. **Instalar o Yii Framework**:
-Como o repositório não está vazio, usaremos este comando para baixar o framework e mover os arquivos para a raiz:
-
-```php
+Use o seguinte comando para baixar o framework e mover os arquivos para a pasta raiz:
+```bash
 composer create-project --prefer-dist yiisoft/yii2-app-basic yii-temp && cp -rn yii-temp/. . && rm -rf yii-temp
 ```
 
-3. **Configurar a Conexão (config/db.php)**:
-Ajuste o arquivo para usar as credenciais do projeto:
-
+4. **Configurar a Conexão (config/db.php)**:
+Você precisa configurar o *framework* para que ele consiga acessar o banco de dados. Para tanto, ajuste o arquivo `config/db.php` para usar as credenciais do projeto, conforme foram criadas no `schema.sql`:
 ```php
 <?php
 return [
@@ -41,65 +54,22 @@ return [
 ];
 ```
 
-4. Iniciar o Servidor:
+5. **Iniciar o Servidor**:
 No terminal, execute:
-
-php yii serve --port=8080 --docroot=web
-
-5.Clique no Open in Browser na notificação que aparecerá.
-
-----
-
-
-
-
-
-
-
-
-
-
-
-# PubMan - Versão Yii Framework 🚀
-
-Este laboratório foca no uso do framework Yii2 para gerenciar referências bibliográficas.
-
-## 🛠️ Como iniciar o ambiente no Codespaces
-
-1. inicializar banco de dados com o `squema.sql`
-
-2. No temrinal, executar:
-```bash
-composer create-project --prefer-dist yiisoft/yii2-app-basic .
-```
-
-4. ajustar o arquivo config/db.php para usar as mesmas credenciais do `squema.sql`:
-```sq
-<?php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=127.0.0.1;dbname=db_pubman',
-    'username' => 'pubman_app',
-    'password' => 'pubmanapp',
-    'charset' => 'utf8',
-];
-```
-
-4.  No terminal, inicie o servidor embutido do Yii:
 ```bash
 php yii serve --port=8080 --docroot=web
 ```
 
-5. Clicar no **Open in Browser** na notificação que aparecerá.
+6.Clique em **Open in Browser**, na notificação que aparecerá.
 
-### Gerando o CRUD com o Gii
+## Gerando o CRUD com o `Gii
 Para não precisar escrever todo o código do formulário manualmente, vamos usar o `gii`, uma ferramenta de geração automática de CRUD.
 
-No entanto, por questões de segurança, o Yii bloqueia o acesso a essas ferramentas se a requisição não vier de 127.0.0.1. Como o Codespaces funciona através de um túnel/proxy de rede, o IP que chega ao servidor PHP não é o local, o que causa um erro 403 Forbidden.
+No entanto, por questões de segurança, o `Yii` bloqueia o acesso a essas ferramentas se a requisição não vier de `127.0.0.1`. Como o Codespaces funciona por meio de um túnel/proxy de rede, o IP que chega ao servidor PHP não é o endereço local, o que gera um erro *403 Forbidden*.
 
-Portanto, primeiro temos que fazer um ajuste no arquivo config/web.php
+Portanto, primeiro **temos que fazer um ajuste no arquivo `config/web.php`**
 
-Abra o arquivo config/web.php e localize o bloco onde o Gii é configurado (geralmente no final do arquivo). Você deve adicionar a propriedade allowedIPs permitindo qualquer IP (*), já que o Codespaces gerencia a segurança da porta para você:
+Abra o arquivo `config/web.php` e localize o bloco onde o `Gii` é configurado (geralmente no final do arquivo). Você deve adicionar a propriedade `allowedIPs` permitindo qualquer IP (*), já que o Codespaces gerencia a segurança da porta para você:
 
 ```php
 if (YII_ENV_DEV) {
@@ -121,7 +91,7 @@ if (YII_ENV_DEV) {
 
 ### Usando o Gii
 
-Acesse a URL do projeto e adicione ?r=gii ao final (ex: https://...8080.app.github.dev/?r=gii).
+Acesse a URL do projeto e adicione `?r=gii` ao final (p.ex., `https://...8080.app.github.dev/?r=gii`).
 
 Model Generator:
 
@@ -129,7 +99,7 @@ Table Name: pub_manager
 
 Model Class: PubManager
 
-Clique em Preview e depois em Generate.
+Clique em Preview e, depois, em Generate.
 
 CRUD Generator:
 
@@ -139,18 +109,20 @@ Search Model Class: app\models\PubManagerSearch
 
 Controller Class: app\controllers\PubManagerController
 
-Clique em Preview e depois em Generate.
+Clique em Preview e, depois, em Generate.
 
-Agora, acesse ?r=pub-manager para ver seu sistema funcionando com ordenação, busca e paginação automáticas!
+Agora, acesse `?r=pub-manager` para ver seu sistema funcionando com ordenação, busca e paginação automáticas!
 
 ### Adicionando regras de validação
 
-Depois que o Gii gerar o arquivo models/PubManager.php, abra esse arquivo e localize o método rules().
+Depois que o `Gii` gerar o arquivo `models/PubManager.php`, abra-o e localize o método `rules()`.
 
-1. Customizando o Model (models/PubManager.php)
-O Gii criará regras básicas (como required para campos NOT NULL). Vamos adicionar uma regra para o campo Ano e outra para o formato dos Autores.
+1. **Customizando o Model** (`models/PubManager.php`)
+   
+O `Gii` criará regras básicas (como *required* para campos `NOT NULL`). Vamos adicionar uma regra para o campo `Ano` e outra para o formato dos Autores.
 
-```phppublic function rules()
+```php
+public function rules()
 {
     return [
         // Regras geradas pelo Gii...
