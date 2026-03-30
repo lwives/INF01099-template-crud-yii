@@ -83,22 +83,36 @@ if (YII_ENV_DEV) {
 }
 ```
 
-### Usando o `Gii` para gerar páginas CRUD
+### Usando o `Gii` para gerar as páginas de CRUD automaticamente
 
 Para usar o `Gii`, acesse a URL do projeto e adicione `?r=gii` ao final (p.ex., `https://...8080.app.github.dev/?r=gii`). Aparecerá a tela da ferramenta "Welcome to Gii".
 
-**Vamos gerar o *model* da tabela principal**. Siga os seguintes passos:
+**Vamos gerar primeiro os *models* das tabelas. Depois, vamos gerar os CRUDS**.
+
+#### Gerando os *models*:
+
+Vamos iniciar pela `tbl_tipo`. Siga os seguintes passos:
 
 1. Clique em **Model Generator** > **Start**;
-2. Table Name: `tbl_referencia` (o Yii deve autocompletar se a conexão com o banco estiver correta e ativa);
-3. Model Class: `Referencia` (o Yii sugere automaticamente);
+2. Table Name: `tbl_tipo` (o Yii deve autocompletar se a conexão com o banco estiver correta e ativa);
+3. Model Class: `Tipo` (o Yii sugere automaticamente);
 4. Clique em **Preview** e depois no botão verde **Generate**.
 
-O `Gii` irá criar o arquivo `models/Referencia.php` com todas as regras de validação baseadas no `schema.sql`, incluindo a detecção automática das relações com as tabelas de Editora e de Veículo. 
+O `Gii` irá criar o arquivo `models/Tipo.php` com todas as regras de validação baseadas no `schema.sql`. 
 
-**Repita o processo de Model Generator para as tabelas tbl_author, tbl_editora e tbl_veiculo antes de gerar o CRUD, para que o sistema reconheça todos os relacionamentos!**
+**Repita o processo de Model Generator para as tabelas na seguinte ordem, para que as relações fiquem corretamente mapeadas**: 
 
-**Vamos gerar a interface CRUD da tabela principal**. Siga os seguintes passos:
+1. `tbl_tipo` (Model: `Tipo`)
+2. `tbl_editora` (Model: `Editora`)
+3. `tbl_veiculo` (Model: `Veiculo`)
+4. `tbl_author` (Model: `Author`)
+5. `tbl_referencia` (Model: `Referencia`)
+
+No modelo `Referência`, o `Yii` detectará automaticamente os métodos `getTipo()`, `getEditora()` e `getVeiculo()`.
+
+#### Gerando os *CRUDS*:
+
+ **Vamos gerar a interface CRUD da tabela principal**. Siga os seguintes passos:
 
 1. Volte para o menu do `Gii` e clique em **CRUD Generator** > **Start**;
 2. Prencha como segue:
@@ -111,11 +125,15 @@ O `Gii` irá criar o arquivo `models/Referencia.php` com todas as regras de vali
 
 ## Testando a aplicação
 
-Acesse `https://URL-DO-CODESPACES/?r=pub-manager` para ver seu sistema funcionando com ordenação, busca e paginação automáticas!
+Acesse `https://URL-DO-CODESPACES/?r=referencia` para ver seu sistema funcionando com ordenação, busca e paginação automáticas!
+
+Você verá o ID do tipo (ex: "1") ao invés do tipo em si. Para mudar, vá ao arquivo `views/referencia/index.php` e altere 'id_tipo' para 'tipo.descricao'.
+
+Isso demonstra o poder do ActiveRecord do Yii: ele vai à tabela `tbl_tipo` buscar a descrição "Artigo em Conferência" sem que você tenha de escrever uma linha de SQL.
 
 ## Adicionando regras de validação
 
-Depois que o `Gii` gerar o arquivo `models/PubManager.php`, abra-o e localize o método `rules()`.
+Depois que o `Gii` gerar o arquivo `models/Referencia.php`, abra-o e localize o método `rules()`.
 
 1. **Customizando o Model** (`models/PubManager.php`)
    
