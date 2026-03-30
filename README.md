@@ -10,6 +10,16 @@ Este laboratório foca no uso do framework Yii2 para gerenciar referências bibl
    mysql -u root < schema.sql
    ```
 
+Teste de Sanidade do Banco de Dados
+Antes de prosseguir para a instalação do framework, verificar se o script SQL funcionou corretamente. No terminal:
+
+mysql -u root -e "SHOW TABLES IN db_pubman;"
+
+
+Se aparecer a lista de tabelas (pub_manager, pub_manager-author): O banco está pronto.
+
+Se der erro "Unknown database": O script schema.sql falhou ou não foi executado.
+
 2. **Instalar o Yii Framework**:
 Como o repositório não está vazio, usaremos este comando para baixar o framework e mover os arquivos para a raiz:
 
