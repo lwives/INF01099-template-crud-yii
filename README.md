@@ -30,7 +30,7 @@ Se der erro *Unknown database*, o *script* schema.sql falhou ou não foi executa
 2. **Instalar o Yii Framework**:
 A instalação do *framework* é feita via `composer`, um gerenciador de pacotes do `PHP`. Normalmente, usamos o seguinte comando no terminal: `composer create-project --prefer-dist yiisoft/yii2-app-basic .`. No entanto, ele espera que o repositório (pasta) esteja vazio, mas como temos alguns arquivos de configuração do contêiner no repositório *github*, precisamos instalar em uma pasta diferente e depois copiá-la para a raiz. 
 
-Use o seguinte comando para baixar o framework e mover os arquivos para a pasta raiz:
+Use o seguinte comando para baixar o *framework* e mover os arquivos para a pasta raiz:
 ```bash
 composer create-project --prefer-dist yiisoft/yii2-app-basic yii-temp && cp -rn yii-temp/. . && rm -rf yii-temp
 ```
