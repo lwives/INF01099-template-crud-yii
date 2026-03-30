@@ -10,5 +10,5 @@
         }
     },
     "forwardPorts": [8080, 3306],
-    "postCreateCommand": "sudo rm -f /etc/apt/sources.list.d/yarn.list && sudo apt-get update && sudo apt-get install -y default-mysql-server && sudo service mariadb start && sleep 10 && sudo mariadb -u root -e \"DROP USER IF EXISTS 'pubman_app'@'localhost'; CREATE USER 'pubman_app'@'localhost' IDENTIFIED BY 'pubmanapp'; GRANT ALL PRIVILEGES ON *.* TO 'pubman_app'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;\" && sudo mariadb -u root < ${containerWorkspaceFolder}/schema.sql"
+    "postCreateCommand": "sudo rm -f /etc/apt/sources.list.d/yarn.list && sudo apt-get update && sudo apt-get install -y default-mysql-server && sudo docker-php-ext-install pdo pdo_mysql && sudo service mariadb start && sleep 10 && sudo mariadb -u root -e \"DROP USER IF EXISTS 'pubman_app'@'localhost'; CREATE USER 'pubman_app'@'localhost' IDENTIFIED BY 'pubmanapp'; GRANT ALL PRIVILEGES ON *.* TO 'pubman_app'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;\" && sudo mariadb -u root < ${containerWorkspaceFolder}/schema.sql"    
 }
