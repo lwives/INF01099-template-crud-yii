@@ -2,7 +2,7 @@
   "name": "Yii2 PHP & MySQL",
   "image": "mcr.microsoft.com/devcontainers/php:1-8.2-bullseye",
   "features": {
-    "ghcr.io/devcontainers/features/mysql:1": {
+    "ghcr.io/devcontainers/features/mysql:1.1": {
       "databaseName": "db_pubman",
       "databaseUser": "pubman_app",
       "databasePassword": "pubmanapp"
