@@ -1,4 +1,4 @@
-CREATE DATABASE db_pubman;
+CREATE DATABASE IF NOT EXISTS db_pubman;
 
 USE db_pubman;
 
