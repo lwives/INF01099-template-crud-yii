@@ -23,7 +23,7 @@ Antes de prosseguir adiante, verifique se o *script* SQL funcionou corretamente,
 ```bash
 mariadb -u pubman_app -ppubmanapp db_pubman -e "show tables;"
 ```
-Se aparecer a lista de tabelas (`pub_manager`, `pub_manager-author`), o banco está pronto.
+Se aparecer a lista de tabelas (`tbl_referencia`, `tbl_author`, `tbl_tipo`, `pub_manager-author`, etc), o banco está pronto.
 
 Se der erro *Unknown database*, o *script* schema.sql falhou ou não foi executado.
 
@@ -140,30 +140,24 @@ Depois que o `Gii` gerar o arquivo `models/Referencia.php`, abra-o e localize o 
 O `Gii` criará regras básicas (como *required* para campos `NOT NULL`). Vamos adicionar uma regra para o campo `Ano` e outra para o formato dos Autores.
 
 ```php
+// No arquivo models/Referencia.php
 public function rules()
 {
     return [
-        // Regras geradas pelo Gii...
-        [['Ref_type', 'Ref_authors', 'Ref_title', 'Ref_year'], 'required'],
-        [['Ref_year'], 'integer'],
+        // Regras geradas pelo Gii (mantenha as que ele criar)...
+        [['titulo', 'id_tipo', 'id_editora', 'id_veiculo', 'ano'], 'required'],
         
         // --- NOSSAS REGRAS CUSTOMIZADAS ---
         
         // 1. Validar que o ano não seja futuro
-        ['Ref_year', 'compare', 'compareValue' => date('Y'), 'operator' => '<=', 
+        ['ano', 'compare', 'compareValue' => date('Y'), 'operator' => '<=', 
          'message' => 'O ano de publicação não pode ser maior que o ano atual.'],
 
-        // 2. Validar formato de autores (mínimo Nome e Sobrenome) usando Regex
-        ['Ref_authors', 'match', 'pattern' => '/\w+\s+\w+/', 
-         'message' => 'Cada autor deve conter pelo menos Nome e Sobrenome.'],
-         
-        // 3. Tornar a URL obrigatória APENAS se o tipo for 'Site' (Validação Condicional)
-        ['Ref_URL', 'required', 'when' => function($model) {
-            return $model->Ref_type == 'Site';
-        }, 'whenClient' => "function (attribute, value) {
-            return $('#pubmanager-ref_type').val() == 'Site';
-        }"],
+        // 2. Validar que o título tenha pelo menos 10 caracteres
+        ['titulo', 'string', 'min' => 10, 
+         'message' => 'O título da publicação parece curto demais.'],
     ];
 }
+```
 
 
