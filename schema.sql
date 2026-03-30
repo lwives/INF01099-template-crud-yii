@@ -46,6 +46,33 @@ CREATE TABLE IF NOT EXISTS `tbl_referencia` (
   UNIQUE KEY `id` (`id`)
 ) ;
 
+-- Criar a tabela de tipos
+CREATE TABLE IF NOT EXISTS `tbl_tipo` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- Inserir os tipos solicitados
+INSERT INTO `tbl_tipo` (`descricao`) VALUES 
+('Artigo em Conferência'), 
+('Artigo em Periódico'), 
+('Capítulo de Livro'), 
+('Livro');
+
+-- Inserir dados de teste para Editora e Veículo (Exemplos UFRGS)
+INSERT INTO `tbl_editora` (`nome`, `cidade`) VALUES ('Editora da UFRGS', 'Porto Alegre');
+INSERT INTO `tbl_veiculo` (`nome_completo`, `acronimo`, `id_qualis`) VALUES ('Revista Brasileira de Informática na Educação', 'RBIE', 1);
+
+-- Ajuste na tbl_referencia para incluir a Foreign Key do Tipo
+-- (Certifique-se de que a definição da tbl_referencia no seu ficheiro tem esta FK)
+ALTER TABLE `tbl_referencia` ADD CONSTRAINT `fk_tipo` 
+FOREIGN KEY (`id_tipo`) REFERENCES `tbl_tipo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+-- Inserir uma referência de teste
+INSERT INTO `tbl_referencia` (`titulo`, `id_tipo`, `id_editora`, `id_veiculo`, `ano`, `pagina_i`, `pagina_f`) 
+VALUES ('Aprendizagem de Máquina na Educação', 1, 1, 1, 2025, 10, 25);
+
 CREATE TABLE IF NOT EXISTS `tbl_user` (
   `id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
