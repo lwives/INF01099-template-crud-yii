@@ -1,18 +1,14 @@
 {
-  "name": "Yii2 PHP & MySQL",
-  "image": "mcr.microsoft.com/devcontainers/php:1-8.2-bullseye",
-  "features": {
-    "ghcr.io/devcontainers/features/mysql:1.1": {
-      "databaseName": "db_pubman",
-      "databaseUser": "pubman_app",
-      "databasePassword": "pubmanapp"
-    }
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": ["bmewburn.vscode-inteliphense-client", "yiisoft.yii2-vscode-extension"]
-    }
-  },
-  "forwardPorts": [8080, 3306],
-  "postCreateCommand": "mysql -u root < schema.sql && composer install"
+    "name": "Yii2 PHP & MySQL (Manual)",
+    "image": "mcr.microsoft.com/devcontainers/php:8.2-bullseye",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-inteliphense-client",
+                "yiisoft.yii2-vscode-extension"
+            ]
+        }
+    },
+    "forwardPorts": [8080, 3306],
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y default-mysql-server && sudo service mysql start && mysql -u root -e \"CREATE DATABASE IF NOT EXISTS db_pubman; CREATE USER IF NOT EXISTS 'pubman_app'@'localhost' IDENTIFIED BY 'pubmanapp'; GRANT ALL PRIVILEGES ON db_pubman.* TO 'pubman_app'@'localhost'; FLUSH PRIVILEGES;\" && mysql -u root db_pubman < schema.sql"
 }
