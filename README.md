@@ -54,9 +54,9 @@ No terminal, execute:
 php yii serve --port=8080 --docroot=web
 ```
 
-5.Clique em **Open in Browser**, na notificação que aparecerá.
+5.Clique em **Open in Browser** na notificação que aparecerá. Se tudo estiver certo, a página de "Congratulations!" do Yii vai aparecer. PAsse para a etapa seguinte (Uso do `Gii`).
 
-## Gerando o CRUD com o `Gii
+## Uso do `Gii`
 Para não precisar escrever todo o código do formulário manualmente, vamos usar o `gii`, uma ferramenta de geração automática de CRUD.
 
 No entanto, por questões de segurança, o `Yii` bloqueia o acesso a essas ferramentas se a requisição não vier de `127.0.0.1`. Como o Codespaces funciona por meio de um túnel/proxy de rede, o IP que chega ao servidor PHP não é o endereço local, o que gera um erro *403 Forbidden*.
@@ -83,7 +83,7 @@ if (YII_ENV_DEV) {
 }
 ```
 
-### Usando o Gii
+### Usando o `Gii` para gerar páginas CRUD
 
 Acesse a URL do projeto e adicione `?r=gii` ao final (p.ex., `https://...8080.app.github.dev/?r=gii`).
 
