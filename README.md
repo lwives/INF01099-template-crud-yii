@@ -16,24 +16,18 @@ Este laboratório foca no uso do [*framework* Yii 2](https://www.yiiframework.co
 
 ## 🛠️ Como iniciar o ambiente no Codespaces
 
-Inicie um novo ambiente no CodeSpaces e aguarde a inicialização. Depois, abra um terminal de comando e siga os seguintes passos.
+Inicie um novo ambiente no CodeSpaces e aguarde a inicialização. Ele irá configurar o container e instalar o MariaDB e criar as tabelas no banco de dados, conforme especificado no arquivo `schema.sql`.
 
-1. **Inicializar o Banco de Dados com o *script* `schema.sql`:**
-   No terminal, execute o comando para criar as tabelas no banco de dados:
-   ```bash
-   mysql -u root < schema.sql
-   ```
-
-2. **Realizar teste de Sanidade do Banco de Dados**:
+1. **Realizar teste de Sanidade do Banco de Dados**:
 Antes de prosseguir adiante, verifique se o *script* SQL funcionou corretamente, digitando no terminal:
 ```bash
-mysql -u root -e "SHOW TABLES IN db_pubman;"
+mariadb -u pubman_app -ppubmanapp db_pubman -e "show tables;"
 ```
 Se aparecer a lista de tabelas (`pub_manager`, `pub_manager-author`), o banco está pronto.
 
 Se der erro *Unknown database*, o *script* schema.sql falhou ou não foi executado.
 
-3. **Instalar o Yii Framework**:
+2. **Instalar o Yii Framework**:
 A instalação do *framework* é feita via `composer`, um gerenciador de pacotes do `PHP`. Normalmente, usamos o seguinte comando no terminal: `composer create-project --prefer-dist yiisoft/yii2-app-basic .`. No entanto, ele espera que o repositório (pasta) esteja vazio, mas como temos alguns arquivos de configuração do contêiner no repositório *github*, precisamos instalar em uma pasta diferente e depois copiá-la para a raiz. 
 
 Use o seguinte comando para baixar o framework e mover os arquivos para a pasta raiz:
@@ -41,7 +35,7 @@ Use o seguinte comando para baixar o framework e mover os arquivos para a pasta 
 composer create-project --prefer-dist yiisoft/yii2-app-basic yii-temp && cp -rn yii-temp/. . && rm -rf yii-temp
 ```
 
-4. **Configurar a Conexão (config/db.php)**:
+3. **Configurar a Conexão (config/db.php)**:
 Você precisa configurar o *framework* para que ele consiga acessar o banco de dados. Para tanto, ajuste o arquivo `config/db.php` para usar as credenciais do projeto, conforme foram criadas no `schema.sql`:
 ```php
 <?php
@@ -54,13 +48,13 @@ return [
 ];
 ```
 
-5. **Iniciar o Servidor**:
+4. **Iniciar o Servidor**:
 No terminal, execute:
 ```bash
 php yii serve --port=8080 --docroot=web
 ```
 
-6.Clique em **Open in Browser**, na notificação que aparecerá.
+5.Clique em **Open in Browser**, na notificação que aparecerá.
 
 ## Gerando o CRUD com o `Gii
 Para não precisar escrever todo o código do formulário manualmente, vamos usar o `gii`, uma ferramenta de geração automática de CRUD.
