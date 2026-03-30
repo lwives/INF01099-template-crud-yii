@@ -16,7 +16,7 @@ Este laboratório foca no uso do [*framework* Yii 2](https://www.yiiframework.co
 
 ## 🛠️ Como iniciar o ambiente no Codespaces
 
-Inicie um novo ambiente no CodeSpaces e aguarde a inicialização. Ele irá configurar o container e instalar o MariaDB e criar as tabelas no banco de dados, conforme especificado no arquivo `schema.sql`.
+Inicie um novo ambiente no CodeSpaces e aguarde a inicialização. Ele irá configurar o contêiner e instalar o MariaDB e criar as tabelas no banco de dados, conforme especificado no arquivo `schema.sql`.
 
 1. **Realizar teste de Sanidade do Banco de Dados**:
 Antes de prosseguir adiante, verifique se o *script* SQL funcionou corretamente, digitando no terminal:
@@ -85,29 +85,34 @@ if (YII_ENV_DEV) {
 
 ### Usando o `Gii` para gerar páginas CRUD
 
-Acesse a URL do projeto e adicione `?r=gii` ao final (p.ex., `https://...8080.app.github.dev/?r=gii`).
+Para usar o `Gii`, acesse a URL do projeto e adicione `?r=gii` ao final (p.ex., `https://...8080.app.github.dev/?r=gii`). Aparecerá a tela da ferramenta "Welcome to Gii".
 
-Model Generator:
+**Vamos gerar o *model* da tabela principal**. Siga os seguintes passos:
 
-Table Name: pub_manager
+1. Clique em **Model Generator** > **Start**;
+2. Table Name: `PubManager` (o Yii deve autocompletar se a conexão com o banco estiver correta e ativa);
+3. Model Class: `PubManager` (o Yii sugere automaticamente);
+4. Clique em **Preview** e depois no botão verde **Generate**.
 
-Model Class: PubManager
+O `Gii` irá criar o arquivo `models/PubManager.php` com todas as regras de validação baseadas no `squema.sql`.
 
-Clique em Preview e, depois, em Generate.
+**Vamos gerar a interface CRUD da tabela principal**. Siga os seguintes passos:
 
-CRUD Generator:
+1. Volte para o menu do `Gii` e clique em **CRUD Generator** > **Start**;
+2. Prencha como segue:
+   * **Model Class**: `app\models\PubManager`
+   * **Search Model Class**: `app\models\PubManagerSearch`
+   * **Controller Class**: `app\controllers\PubManagerController`
+   * **View Path**: (deixe em branco).
+   * 
+3. Clique em **Preview** e, em seguida, em **Generate**.
 
-Model Class: app\models\PubManager
 
-Search Model Class: app\models\PubManagerSearch
+## Testando a aplicação
 
-Controller Class: app\controllers\PubManagerController
+Acesse `https://URL-DO-CODESPACES/?r=pub-manager` para ver seu sistema funcionando com ordenação, busca e paginação automáticas!
 
-Clique em Preview e, depois, em Generate.
-
-Agora, acesse `?r=pub-manager` para ver seu sistema funcionando com ordenação, busca e paginação automáticas!
-
-### Adicionando regras de validação
+## Adicionando regras de validação
 
 Depois que o `Gii` gerar o arquivo `models/PubManager.php`, abra-o e localize o método `rules()`.
 
