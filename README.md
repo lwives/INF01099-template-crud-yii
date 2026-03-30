@@ -10,7 +10,7 @@ Este laboratório foca no uso do [*framework* Yii 2](https://www.yiiframework.co
 
 **Desvantagens**:
 * Curva de aprendizado inicial;
-* Comunicade um pouco menor, sendo menos *hype*;
+* Comunidade um pouco menor, sendo menos *hype*;
 * Ecosistema menor em termos de bibliotecas prontas;
 * Demora um pouco para adotar as novas tecnologias do PHP.
 
@@ -18,16 +18,10 @@ Este laboratório foca no uso do [*framework* Yii 2](https://www.yiiframework.co
 
 Inicie um novo ambiente no CodeSpaces e aguarde a inicialização. Ele irá configurar o contêiner e instalar o MariaDB e criar as tabelas no banco de dados, conforme especificado no arquivo `schema.sql`.
 
-Antes de mais nada, ao inicializar o container, ative o serviço do banco de dados:
-
-```bash
-sudo service mariadb start
-```
-
 1. **Realizar teste de Sanidade do Banco de Dados**:
 Antes de prosseguir adiante, verifique se o *script* SQL funcionou corretamente, digitando no terminal:
 ```bash
-mariadb -u pubman_app -ppubmanapp db_pubman -e "show tables;"
+php -m | grep pdo_mysql && sudo mariadb -u root -e "SHOW TABLES IN db_pubman;"
 ```
 Se aparecer a lista de tabelas (`tbl_referencia`, `tbl_author`, `tbl_tipo`, `pub_manager-author`, etc), o banco está pronto.
 
