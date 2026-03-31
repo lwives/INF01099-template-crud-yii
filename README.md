@@ -135,7 +135,7 @@ Isso demonstra o poder do ActiveRecord do Yii: ele vai à tabela `tbl_tipo` busc
 
 Depois que o `Gii` gerar o arquivo `models/Referencia.php`, abra-o e localize o método `rules()`.
 
-1. **Customizando o Model** (`models/PubManager.php`)
+1. **Customizando o Model** (`models/Referencia.php`)
    
 O `Gii` criará regras básicas (como *required* para campos `NOT NULL`). Vamos adicionar uma regra para o campo `Ano` e outra para o formato dos Autores.
 
@@ -164,7 +164,7 @@ public function rules()
 
 Se você terminou o CRUD básico e quer explorar o potencial real do Yii, tente implementar as seguintes melhorias:
 
-1. Relacionamentos: Substituir ID por Nome
+1. **Relacionamentos: Substituir ID por Nome**
 Por padrão, o `Gii` cria campos de texto para chaves estrangeiras (IDs). Em um sistema real, o usuário deve selecionar o nome em um dropdown.
 
 **Tarefa**: No formulário de publicação, substitua o campo de `autor_id` (ou similar) por um `dropDownList`. 
@@ -179,12 +179,14 @@ Por padrão, o `Gii` cria campos de texto para chaves estrangeiras (IDs). Em um 
 ) ?>
 ```
 
+**Dica Extra**: Não esqueça de adicionar `use yii\helpers\ArrayHelper;` e `use app\models\Author;` no topo do arquivo `_form.php` para que o código do Dropdown funcione!
+
 2. **Visualização Relacional no GridView**
 Na listagem (`index.php`), ao invés de exibir o ID do autor, exiba o nome dele vindo da tabela relacionada.
 
 **Tarefa**: Configure o componente GridView para acessar a relação definida no Model.
 
-**Dica**: Certifique-se de que o Model PubManager tem o método `getAuthor()` definido.
+**Dica**: Certifique-se de que o Model Referencia tem o método `getAuthor()` definido.
 
 3. **Máscaras e UI**
 Melhore a experiência do usuário adicionando máscaras de entrada (ex: para ISBN) ou calendários para campos de data, utilizando os widgets do Yii2 como o `yii\widgets\MaskedInput`.
