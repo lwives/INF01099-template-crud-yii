@@ -160,4 +160,31 @@ public function rules()
 }
 ```
 
+## Desafios e Melhorias
 
+Se você terminou o CRUD básico e quer explorar o potencial real do Yii, tente implementar as seguintes melhorias:
+
+1. Relacionamentos: Substituir ID por Nome
+Por padrão, o `Gii` cria campos de texto para chaves estrangeiras (IDs). Em um sistema real, o usuário deve selecionar o nome em um dropdown.
+
+**Tarefa**: No formulário de publicação, substitua o campo de `autor_id` (ou similar) por um `dropDownList`. 
+
+**Dica**: Use `yii\helpers\ArrayHelper::map()` para buscar os autores do banco e transformá-los em uma lista de [id => nome].
+
+```php
+// No arquivo _form.php
+<?= $form->field($model, 'author_id')->dropDownList(
+    ArrayHelper::map(Author::find()->all(), 'ID', 'Name'),
+    ['prompt' => 'Selecione um Autor']
+) ?>
+```
+
+2. **Visualização Relacional no GridView**
+Na listagem (`index.php`), ao invés de exibir o ID do autor, exiba o nome dele vindo da tabela relacionada.
+
+**Tarefa**: Configure o componente GridView para acessar a relação definida no Model.
+
+**Dica**: Certifique-se de que o Model PubManager tem o método `getAuthor()` definido.
+
+3. **Máscaras e UI**
+Melhore a experiência do usuário adicionando máscaras de entrada (ex: para ISBN) ou calendários para campos de data, utilizando os widgets do Yii2 como o `yii\widgets\MaskedInput`.
