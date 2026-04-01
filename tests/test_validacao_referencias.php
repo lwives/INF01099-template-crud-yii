@@ -11,27 +11,36 @@ new yii\console\Application($config);
 
 use app\models\Referencia;
 
+use app\models\Referencia;
+
 $errors = [];
 
-// 1. Verificar se a classe existe (se o Gii foi rodado)
+// 1. Verificar se a classe existe
 if (!class_exists('app\models\Referencia')) {
-    echo "❌ ERRO: O Model 'Referencia' não foi encontrado. Você gerou o Model no Gii?\n";
+    echo "❌ ERRO: O Model 'Referencia' não foi encontrado em models/Referencia.php.\n";
     exit(1);
 }
 
 $model = new Referencia();
 
+// Verificação de segurança: as colunas do banco foram mapeadas?
+if (!$model->hasAttribute('ano') || !$model->hasAttribute('titulo')) {
+    echo "❌ ERRO: O Model 'Referencia' existe, mas não possui os atributos 'ano' ou 'titulo'.\n";
+    echo "Verifique se você gerou o Model a partir da tabela correta no Gii.\n";
+    exit(1);
+}
+
 // 2. Testar Validação de Ano Futuro
 $ano_futuro = date('Y') + 5;
 $model->ano = $ano_futuro; 
 if ($model->validate(['ano'])) {
-    $errors[] = "Falha: O sistema aceitou um ano futuro (" . $ano_futuro . "). Verifique a regra 'compare' no Model.";
+    $errors[] = "O sistema ACEITOU um ano futuro ($ano_futuro). (Dica: use a regra 'compare' com 'operator' => '<=')";
 }
 
 // 3. Testar Validação de Título Curto
 $model->titulo = "Curto";
 if ($model->validate(['titulo'])) {
-    $errors[] = "Falha: O sistema aceitou um título com menos de 10 caracteres. Verifique a regra 'string' no Model.";
+    $errors[] = "O sistema ACEITOU um título com menos de 10 caracteres. (Dica: use a regra 'string' com 'min' => 10)";
 }
 
 // Resultado final
