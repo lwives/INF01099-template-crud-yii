@@ -22,9 +22,27 @@ Usando o CodeSpaces, você criará uma cópia pessoal e privada deste repositór
 
 Se tiver algum problema durante a execução da atividade, consulte a seção "Solução de Problemas (Troubleshooting)" ao final desta página. Caso ainda tenha problemas, consulte o professor!
 
-**Quando terminar**, basta fazer um *push* no repositório para que ele registre a entrega. O professor será avisado e fará a revisão. Até a data de entrega, você pode fazer as modificações que desejar. Basta encaminhá-las com um *push* no repositório. A lista de critérios de avaliação está no final desta página.
+**Quando terminar**, basta fazer um *push* no repositório para que a entrega seja registrada. O professor será avisado e fará a revisão. Até a data de entrega, você pode fazer as modificações que desejar. Basta encaminhá-las com um *push* no repositório. A lista de critérios de avaliação está no final desta página.
 
-**DICA**: 
+**DICA**: antes de encaminhar sua atividade (fazer o *push*), você pode verificar se os requisitos principais foram atendidos executando os scripts de teste diretamente no terminal do Codespaces. Isso ajuda a identificar erros de configuração ou de lógica antes da avaliação final.
+
+Para rodar os testes, execute os comandos abaixo no terminal:
+
+1. **Validar existência do CRUD e Models**:
+   ```bash
+   php tests/test_crud_exists.php
+   ```
+
+2. Validar conexão com o Banco de Dados:
+   ```bash
+   php tests/test_db_connection.php
+   ```
+3. Validar as Regras de Negócio (Ano e Título):
+   ```bash
+   php tests/test_validacao_referencias.php
+   ```
+
+**Dica**: Se um teste falhar, leia a mensagem de erro no terminal. Ela indicará o que falta (p.ex., um arquivo não gerado ou uma regra de validação mal configurada).
 
 ## 🛠️ Como iniciar o ambiente no Codespaces
 
