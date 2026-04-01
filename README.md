@@ -14,6 +14,18 @@ Este laboratório foca no uso do [*framework* Yii 2](https://www.yiiframework.co
 * Ecosistema menor em termos de bibliotecas prontas;
 * Demora um pouco para adotar as novas tecnologias do PHP.
 
+## Descrição da atividade
+
+Usando o CodeSpaces, você criará uma cópia pessoal e privada deste repositório e instanciará um contêiner de execução. Nele, instalará e configurará o `Yii`. Em seguida, utilizando as ferramentas e os componentes do *framework*, desenvolverá uma nova versão da aplicação PubManager. **As atividades que você deve realizar estão a seguir, a partir da seção "Como iniciar o ambiente no Codespaces"**. Saiba que tudo o que você fizer fica refletido apenas no seu contêiner de execução. Portanto, ao terminar, você deve sincronizá-lo com seu repositório de atividade no GitHub Classroom. 
+
+**DICA**: o contêiner cria uma cópia do seu repositório (que inicialmente é igual ao do professor), mas é desativado após um período de inatividade. Ao acessá-lo novamente, ele é reativado. Para garantir que você não perdeu nada do que fez, dê um *push* para sincronizar os arquivos locais (do contêiner) com os do repositório. Saiba que isso acionará uma série de testes que avaliam se os requisitos foram atendidos. Você pode ignorá-los se ainda não terminou de executar as atividades. 
+
+Se tiver algum problema durante a execução da atividade, consulte a seção "Solução de Problemas (Troubleshooting)" ao final desta página. Caso ainda tenha problemas, consulte o professor!
+
+**Quando terminar**, basta fazer um *push* no repositório para que ele registre a entrega. O professor será avisado e fará a revisão. Até a data de entrega, você pode fazer as modificações que desejar. Basta encaminhá-las com um *push* no repositório. A lista de critérios de avaliação está no final desta página.
+
+**DICA**: 
+
 ## 🛠️ Como iniciar o ambiente no Codespaces
 
 Inicie um novo ambiente no CodeSpaces e aguarde a inicialização. Ele irá configurar o contêiner e instalar o MariaDB e criar as tabelas no banco de dados, conforme especificado no arquivo `schema.sql`.
@@ -190,3 +202,33 @@ Na listagem (`index.php`), em vez de exibir o ID do autor, exiba o nome dele, pr
 
 3. **Máscaras e UI**
 Melhore a experiência do usuário ao adicionar máscaras de entrada (p. ex., para ISBN) ou calendários nos campos de data, utilizando os widgets do Yii2, como o `yii\widgets\MaskedInput`.
+
+
+## 📊 Critérios de Avaliação 
+
+Sua entrega será avaliada conforme os critérios abaixo:
+
+| Item | Nota | O que será avaliado? |
+| :--- | :---: | :--- |
+| **Infraestrutura** | 1,0 | Banco de dados criado e Yii instalado com sucesso. |
+| **Conectividade** | 1,0 | Arquivo `db.php` configurado e sistema conectando ao MariaDB. |
+| **Geração CRUD** | 5,0 | Uso correto do Gii para gerar Models e Controllers. |
+| **Regras de Negócio** | 2,0 | Implementação das validações de Ano e Título no Model. |
+| **UI/UX (Desafio)** | +2 (pontos extra) | Substituição de IDs por Dropdowns e exibição de nomes no GridView. |
+
+
+## 🆘 Solução de Problemas (Troubleshooting)
+
+Se você encontrar erros ao rodar o comando `php tests/teste_valida.php` ou ao abrir o Gii, consulte a tabela abaixo:
+
+| Erro Comum | Causa Provável | Como Resolver |
+| :--- | :--- | :--- |
+| **"Class 'app\models\Referencia' not found"** | O Model ainda não foi gerado pelo Gii ou o `namespace` está incorreto. | Gere o Model no Gii conforme as instruções. Verifique se o arquivo `models/Referencia.php` existe`. |
+| **"Access denied for user 'pubman_app'"** | As credenciais no arquivo `config/db.php` não coincidem com as do arquivo `schema.sql`. | Verifique se o `username`, `password` e `dbname` estão idênticos aos definidos no passo 3. |
+| **"403 Forbidden" ao acessar o Gii** | A configuração de `allowedIPs` no `config/web.php` está ausente ou incorreta. | Certifique-se de que adicionou `'allowedIPs' => ['127.0.0.1', '::1', '*']` nos módulos `gii` e `debug`. |
+| **"The table does not exist: tbl_referencia"** | O banco de dados não foi inicializado ou o nome da tabela no Gii contém um erro de digitação. | Rode o teste de sanidade (passo 1). No Gii, use o autocompletar para selecionar a tabela. |
+| **"Allowed memory size exhausted"** | O comando `composer` travou devido à falta de memória no contêiner. | Tente executar `export COMPOSER_MEMORY_LIMIT=-1` antes de repetir o comando do Composer. |
+| **"Parse error: syntax error..."** | Erro de digitação (esquecimento de `;` ou `]`) ao editar o `rules()` ou o `db.php`. | Leia a mensagem de erro no terminal; ela indica exatamente a linha do arquivo que precisa de correção. |
+
+> **💡 Dica de Ouro:** Muitos problemas de visualização no Yii ocorrem por conta de cache de arquivos temporários. Se você fez uma alteração e ela não reflete na página, tente limpar a pasta de runtime no terminal:
+> `rm -rf runtime/*`
