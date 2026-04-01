@@ -23,7 +23,7 @@ Antes de prosseguir adiante, verifique se o *script* SQL funcionou corretamente,
 ```bash
 php -m | grep pdo_mysql && sudo mariadb -u root -e "SHOW TABLES IN db_pubman;"
 ```
-Se aparecer a lista de tabelas (`tbl_referencia`, `tbl_author`, `tbl_tipo`, `pub_manager-author`, etc), o banco está pronto.
+Se aparecer a lista de tabelas (`tbl_referencia`, `tbl_author`, `tbl_tipo`, `pub_manager-author`, etc.), o banco está pronto.
 
 Se der erro *Unknown database*, o *script* schema.sql falhou ou não foi executado.
 
@@ -59,7 +59,7 @@ php yii serve --port=8080 --docroot=web
 ## Uso do `Gii`
 Para não precisar escrever todo o código do formulário manualmente, vamos usar o `gii`, uma ferramenta de geração automática de CRUD.
 
-No entanto, por questões de segurança, o `Yii` bloqueia o acesso a essas ferramentas se a requisição não vier de `127.0.0.1`. Como o Codespaces funciona por meio de um túnel/proxy de rede, o IP que chega ao servidor PHP não é o endereço local, o que gera um erro *403 Forbidden*.
+No entanto, por questões de segurança, o `Yii` bloqueia o acesso a essas ferramentas se a requisição não vier de `127.0.0.1`. Como o Codespaces funciona por meio de um túnel/proxy de rede, o IP que chega ao servidor PHP não é o endereço local, o que gera o erro *403 Forbidden*.
 
 Portanto, primeiro **temos que fazer um ajuste no arquivo `config/web.php`**
 
@@ -85,7 +85,7 @@ if (YII_ENV_DEV) {
 
 ### Usando o `Gii` para gerar as páginas de CRUD automaticamente
 
-Para usar o `Gii`, acesse a URL do projeto e adicione `?r=gii` ao final (p.ex., `https://...8080.app.github.dev/?r=gii`). Aparecerá a tela da ferramenta "Welcome to Gii".
+Para usar o `Gii`, acesse a URL do projeto e adicione `?r=gii` ao final (p.ex., `https://...8080.app.github.dev/?r=gii`). A tela da ferramenta exibirá a mensagem "Welcome to Gii".
 
 **Vamos gerar primeiro os *models* das tabelas. Depois, vamos gerar os CRUDS**.
 
@@ -96,9 +96,9 @@ Vamos iniciar pela `tbl_tipo`. Siga os seguintes passos:
 1. Clique em **Model Generator** > **Start**;
 2. Table Name: `tbl_tipo` (o Yii deve autocompletar se a conexão com o banco estiver correta e ativa);
 3. Model Class: `Tipo` (o Yii sugere automaticamente);
-4. Clique em **Preview** e depois no botão verde **Generate**.
+4. Clique em **Preview** e, depois, no botão verde **Generate**.
 
-O `Gii` irá criar o arquivo `models/Tipo.php` com todas as regras de validação baseadas no `schema.sql`. 
+O `Gii` gerará o arquivo `models/Tipo.php` com todas as regras de validação baseadas no `schema.sql`. 
 
 **Repita o processo de Model Generator para as tabelas na seguinte ordem, para que as relações fiquem corretamente mapeadas**: 
 
@@ -127,9 +127,9 @@ No modelo `Referência`, o `Yii` detectará automaticamente os métodos `getTipo
 
 Acesse `https://URL-DO-CODESPACES/?r=referencia` para ver seu sistema funcionando com ordenação, busca e paginação automáticas!
 
-Você verá o ID do tipo (ex: "1") ao invés do tipo em si. Para mudar, vá ao arquivo `views/referencia/index.php` e altere 'id_tipo' para 'tipo.descricao'.
+Você verá o ID do tipo (p. ex., "1") em vez do próprio tipo. Para mudar, vá ao arquivo `views/referencia/index.php` e altere 'id_tipo' para 'tipo.descricao'.
 
-Isso demonstra o poder do ActiveRecord do Yii: ele vai à tabela `tbl_tipo` buscar a descrição "Artigo em Conferência" sem que você tenha de escrever uma linha de SQL.
+Isso demonstra o poder do ActiveRecord do Yii: ele consulta a tabela `tbl_tipo` para obter a descrição "Artigo em Conferência" sem que você precise escrever uma única linha de SQL.
 
 ## Adicionando regras de validação
 
@@ -167,7 +167,7 @@ Se você terminou o CRUD básico e quer explorar o potencial real do Yii, tente 
 1. **Relacionamentos: Substituir ID por Nome**
 Por padrão, o `Gii` cria campos de texto para chaves estrangeiras (IDs). Em um sistema real, o usuário deve selecionar o nome em um dropdown.
 
-**Tarefa**: No formulário de publicação, substitua o campo de `autor_id` (ou similar) por um `dropDownList`. 
+**Tarefa**: No formulário de publicação, substitua o campo `autor_id` (ou similar) por um `dropDownList`. 
 
 **Dica**: Use `yii\helpers\ArrayHelper::map()` para buscar os autores do banco e transformá-los em uma lista de [id => nome].
 
@@ -179,14 +179,14 @@ Por padrão, o `Gii` cria campos de texto para chaves estrangeiras (IDs). Em um 
 ) ?>
 ```
 
-**Dica Extra**: Não esqueça de adicionar `use yii\helpers\ArrayHelper;` e `use app\models\Author;` no topo do arquivo `_form.php` para que o código do Dropdown funcione!
+**Dica Extra**: Não se esqueça de adicionar `use yii\helpers\ArrayHelper;` e `use app\models\Author;` no topo do arquivo `_form.php` para que o código do Dropdown funcione!
 
 2. **Visualização Relacional no GridView**
-Na listagem (`index.php`), ao invés de exibir o ID do autor, exiba o nome dele vindo da tabela relacionada.
+Na listagem (`index.php`), em vez de exibir o ID do autor, exiba o nome dele, proveniente da tabela relacionada.
 
 **Tarefa**: Configure o componente GridView para acessar a relação definida no Model.
 
 **Dica**: Certifique-se de que o Model Referencia tem o método `getAuthor()` definido.
 
 3. **Máscaras e UI**
-Melhore a experiência do usuário adicionando máscaras de entrada (ex: para ISBN) ou calendários para campos de data, utilizando os widgets do Yii2 como o `yii\widgets\MaskedInput`.
+Melhore a experiência do usuário ao adicionar máscaras de entrada (p. ex., para ISBN) ou calendários nos campos de data, utilizando os widgets do Yii2, como o `yii\widgets\MaskedInput`.
