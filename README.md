@@ -75,6 +75,7 @@ return [
     'username' => 'pubman_app',
     'password' => 'pubmanapp',
     'charset' => 'utf8',
+    'tablePrefix' => 'tbl_',
 ];
 ```
 
